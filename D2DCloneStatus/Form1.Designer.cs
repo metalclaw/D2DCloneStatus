@@ -28,13 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.olvData = new BrightIdeasSoftware.ObjectListView();
             this.olvcRegion = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvcProgress = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvcLadder = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvcHC = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvcLastReport = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.lblLastUpdate = new System.Windows.Forms.Label();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.btnStartAutoRefresh = new System.Windows.Forms.Button();
+            this.btnStopAutoRefresh = new System.Windows.Forms.Button();
+            this.nudTimerInterval = new System.Windows.Forms.NumericUpDown();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblAutoRefreshStatus = new System.Windows.Forms.Label();
+            this.panelAutoRefreshStatus = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.cbMinimizeToTray = new System.Windows.Forms.CheckBox();
+            this.lblNextRefreshIn = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.olvData)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTimerInterval)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // olvData
@@ -91,16 +109,168 @@
             this.olvcLastReport.Text = "Last Report";
             this.olvcLastReport.Width = 141;
             // 
+            // lblLastUpdate
+            // 
+            this.lblLastUpdate.AutoSize = true;
+            this.lblLastUpdate.Location = new System.Drawing.Point(601, 12);
+            this.lblLastUpdate.Name = "lblLastUpdate";
+            this.lblLastUpdate.Size = new System.Drawing.Size(66, 13);
+            this.lblLastUpdate.TabIndex = 2;
+            this.lblLastUpdate.Text = "Last update:";
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(604, 52);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnRefresh.TabIndex = 4;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // btnStartAutoRefresh
+            // 
+            this.btnStartAutoRefresh.Location = new System.Drawing.Point(6, 88);
+            this.btnStartAutoRefresh.Name = "btnStartAutoRefresh";
+            this.btnStartAutoRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnStartAutoRefresh.TabIndex = 5;
+            this.btnStartAutoRefresh.Text = "Start";
+            this.btnStartAutoRefresh.UseVisualStyleBackColor = true;
+            this.btnStartAutoRefresh.Click += new System.EventHandler(this.btnStartAutoRefresh_Click);
+            // 
+            // btnStopAutoRefresh
+            // 
+            this.btnStopAutoRefresh.Location = new System.Drawing.Point(173, 88);
+            this.btnStopAutoRefresh.Name = "btnStopAutoRefresh";
+            this.btnStopAutoRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnStopAutoRefresh.TabIndex = 6;
+            this.btnStopAutoRefresh.Text = "Stop";
+            this.btnStopAutoRefresh.UseVisualStyleBackColor = true;
+            this.btnStopAutoRefresh.Click += new System.EventHandler(this.btnStopAutoRefresh_Click);
+            // 
+            // nudTimerInterval
+            // 
+            this.nudTimerInterval.Location = new System.Drawing.Point(190, 45);
+            this.nudTimerInterval.Maximum = new decimal(new int[] {
+            900,
+            0,
+            0,
+            0});
+            this.nudTimerInterval.Name = "nudTimerInterval";
+            this.nudTimerInterval.Size = new System.Drawing.Size(58, 20);
+            this.nudTimerInterval.TabIndex = 7;
+            this.nudTimerInterval.ValueChanged += new System.EventHandler(this.nudTimerInterval_ValueChanged);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.lblNextRefreshIn);
+            this.groupBox1.Controls.Add(this.lblAutoRefreshStatus);
+            this.groupBox1.Controls.Add(this.panelAutoRefreshStatus);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.nudTimerInterval);
+            this.groupBox1.Controls.Add(this.btnStopAutoRefresh);
+            this.groupBox1.Controls.Add(this.btnStartAutoRefresh);
+            this.groupBox1.Location = new System.Drawing.Point(514, 272);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(274, 117);
+            this.groupBox1.TabIndex = 8;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Auto refresh";
+            // 
+            // lblAutoRefreshStatus
+            // 
+            this.lblAutoRefreshStatus.AutoSize = true;
+            this.lblAutoRefreshStatus.Location = new System.Drawing.Point(6, 23);
+            this.lblAutoRefreshStatus.Name = "lblAutoRefreshStatus";
+            this.lblAutoRefreshStatus.Size = new System.Drawing.Size(47, 13);
+            this.lblAutoRefreshStatus.TabIndex = 10;
+            this.lblAutoRefreshStatus.Text = "Running";
+            // 
+            // panelAutoRefreshStatus
+            // 
+            this.panelAutoRefreshStatus.Location = new System.Drawing.Point(9, 45);
+            this.panelAutoRefreshStatus.Name = "panelAutoRefreshStatus";
+            this.panelAutoRefreshStatus.Size = new System.Drawing.Size(40, 20);
+            this.panelAutoRefreshStatus.TabIndex = 9;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(187, 23);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(81, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Refresh interval";
+            // 
+            // trayIcon
+            // 
+            this.trayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("trayIcon.Icon")));
+            this.trayIcon.Text = "D2 dclone status trackeris minimized to tray yo!";
+            this.trayIcon.Visible = true;
+            this.trayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseDoubleClick);
+            // 
+            // cbMinimizeToTray
+            // 
+            this.cbMinimizeToTray.AutoSize = true;
+            this.cbMinimizeToTray.Location = new System.Drawing.Point(523, 412);
+            this.cbMinimizeToTray.Name = "cbMinimizeToTray";
+            this.cbMinimizeToTray.Size = new System.Drawing.Size(98, 17);
+            this.cbMinimizeToTray.TabIndex = 9;
+            this.cbMinimizeToTray.Text = "Minimize to tray";
+            this.cbMinimizeToTray.UseVisualStyleBackColor = true;
+            // 
+            // lblNextRefreshIn
+            // 
+            this.lblNextRefreshIn.AutoSize = true;
+            this.lblNextRefreshIn.Location = new System.Drawing.Point(65, 45);
+            this.lblNextRefreshIn.Name = "lblNextRefreshIn";
+            this.lblNextRefreshIn.Size = new System.Drawing.Size(110, 13);
+            this.lblNextRefreshIn.TabIndex = 11;
+            this.lblNextRefreshIn.Text = "Next refresh in: 10/90";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(250, 47);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(24, 13);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "sec";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Location = new System.Drawing.Point(514, 110);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(274, 156);
+            this.groupBox2.TabIndex = 10;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Filters";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.cbMinimizeToTray);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.btnRefresh);
+            this.Controls.Add(this.lblLastUpdate);
             this.Controls.Add(this.olvData);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Diablo 2 Ressurected - Diablo Clone Status";
+            this.Resize += new System.EventHandler(this.Form1_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.olvData)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTimerInterval)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -112,6 +282,20 @@
         private BrightIdeasSoftware.OLVColumn olvcLadder;
         private BrightIdeasSoftware.OLVColumn olvcHC;
         private BrightIdeasSoftware.OLVColumn olvcLastReport;
+        private System.Windows.Forms.Label lblLastUpdate;
+        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.Button btnStartAutoRefresh;
+        private System.Windows.Forms.Button btnStopAutoRefresh;
+        private System.Windows.Forms.NumericUpDown nudTimerInterval;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblAutoRefreshStatus;
+        private System.Windows.Forms.Panel panelAutoRefreshStatus;
+        private System.Windows.Forms.NotifyIcon trayIcon;
+        private System.Windows.Forms.CheckBox cbMinimizeToTray;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblNextRefreshIn;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }
 

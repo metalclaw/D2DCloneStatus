@@ -20,16 +20,48 @@ namespace D2DCloneStatus
         static string endpoint = "https://diablo2.io/dclone_api.php";
         static HttpClient client = new HttpClient();
         private List<Response> responseList = new List<Response>();
+        Timer refreshTimer = new Timer();
+        private int timerInterval = 90; //in seconds
+        private int currentTimerInterval = 0;
+
         public Form1()
         {
             InitializeComponent();
             refreshStatus();
+            
+            nudTimerInterval.Value = timerInterval;
+
+            refreshTimer.Interval = 1000;
+            refreshTimer.Tick += new EventHandler(timer_Tick);
+
+            stopTimer();
+
+            void timer_Tick(object sender, EventArgs e)
+            {
+                currentTimerInterval += 1;
+                if (currentTimerInterval >= timerInterval)
+                {
+                    refreshStatus();
+                    currentTimerInterval = 0;
+                }
+                lblNextRefreshIn.Text = "Next refresh in: " + currentTimerInterval.ToString() + "/" + timerInterval.ToString();
+            }
         }
 
         public async void refreshStatus()
         {
-            responseList = await getData();
-            updateList(responseList);
+            try
+            {
+                responseList = await getData();
+                updateList(responseList);
+                lblLastUpdate.Text = "Last update: " + DateTime.Now.ToString("HH:mm:ss");
+            } catch(HttpRequestException ex)
+            {
+                MessageBox.Show("A HTTP error occured when trying to get data from server. Either the server is down or your internet connection is unstable.", "Error");
+            } catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
         }
 
         private async Task<List<Response>> getData()
@@ -73,87 +105,86 @@ namespace D2DCloneStatus
         {
             TimeSpan difference = DateTime.Now - Helpers.UnixTimeStampToDateTime(timestamp);
 
-            if (difference.Days> 0)
+            if (difference.Days > 0)
             {
-                return difference.Days.ToString() + " days ago";
+                return difference.Days.ToString() + " day(s) ago";
             }
-            if (difference.Hours> 0)
+            if (difference.Hours > 0)
             {
-                return difference.Hours.ToString() + " hours ago";
+                return difference.Hours.ToString() + " hour(s) ago";
             }
-            if (difference.Minutes> 0)
+            if (difference.Minutes > 0)
             {
-                return difference.Minutes.ToString() + " minutes ago";
+                return difference.Minutes.ToString() + " minute(s) ago";
             }
             
-            return difference.Seconds.ToString() + " seconds ago";
+            return difference.Seconds.ToString() + " second(s) ago";
         }
 
-       
-    }
-
-    public static class Helpers
-    {
-        public static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
+        private void btnRefresh_Click(object sender, EventArgs e)
         {
-            // Unix timestamp is seconds past epoch
-            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            dateTime = dateTime.AddSeconds(unixTimeStamp).ToLocalTime();
-            return dateTime;
+            refreshStatus();
+
+            if (refreshTimer.Enabled)
+            {
+                resetTimer();
+            }
         }
-    }
 
-    public class Response
-    {
-        public int progress { get; set; }
-        public int region { get; set; }
-        public int ladder { get; set; }
-        public int hc { get; set; }
-        public int timestamped { get; set; }
-        public int reporter_id { get; set; }
-
-        public ResponseForOLV convertForOLV()
+        private void btnStartAutoRefresh_Click(object sender, EventArgs e)
         {
-            ResponseForOLV response = new ResponseForOLV();
-
-            response.region = ((RegionMapping)region).ToString();
-            response.progress = (progress).ToString() + "/6";
-            response.ladder = ((LadderMapping)ladder).ToString();
-            response.hc = ((HCMapping)hc).ToString();
-            response.lastReport = Form1.parseTimestamp(timestamped);
-
-            return response;
+            startTimer();
         }
-    }
 
-    public class ResponseForOLV
-    {
-        public string region { get; set; }
-        public string progress { get; set; }
-        public string ladder { get; set; }
-        public string hc { get; set; }
-        public string lastReport { get; set; }
-    }
+        private void btnStopAutoRefresh_Click(object sender, EventArgs e)
+        {
+            stopTimer();
+        }
 
-    enum RegionMapping
-    {
-        None,
-        Americas,
-        Europe,
-        Asia
-    }
+        private void nudTimerInterval_ValueChanged(object sender, EventArgs e)
+        {
+            timerInterval = (int)nudTimerInterval.Value;
+            resetTimer();
+        }
+        private void startTimer()
+        {
+            refreshTimer.Start();
+            lblAutoRefreshStatus.Text = "Running";
+            panelAutoRefreshStatus.BackColor = Color.Green;
+            currentTimerInterval = 0;
+            lblNextRefreshIn.Text = "Next refresh in: 0/" + timerInterval.ToString();
+        }
 
-    enum LadderMapping
-    { 
-        None, 
-        Ladder, 
-        NonLadder
-    }
+        private void stopTimer()
+        {
+            refreshTimer.Stop();
+            lblAutoRefreshStatus.Text = "Stopped";
+            panelAutoRefreshStatus.BackColor = Color.Red;
+            lblNextRefreshIn.Text = "";
+            currentTimerInterval = 0;
+        }
 
-    enum HCMapping
-    {
-        None,
-        Hardcore,
-        Softcore
+        private void resetTimer()
+        {
+            stopTimer();
+            currentTimerInterval = 0;
+            startTimer();
+        }
+
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized && cbMinimizeToTray.Checked)
+            {
+                Hide();
+            }
+        }
+
+        private void trayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized && !Visible) {
+                Show();
+                WindowState = FormWindowState.Normal;
+            }
+        }
     }
 }
