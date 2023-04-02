@@ -42,17 +42,24 @@
             this.btnStopAutoRefresh = new System.Windows.Forms.Button();
             this.nudTimerInterval = new System.Windows.Forms.NumericUpDown();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lblNextRefreshIn = new System.Windows.Forms.Label();
             this.lblAutoRefreshStatus = new System.Windows.Forms.Label();
             this.panelAutoRefreshStatus = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.cbMinimizeToTray = new System.Windows.Forms.CheckBox();
-            this.lblNextRefreshIn = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cbFilterHCSC = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cbFilterLadderNonLadder = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cbFilterRegion = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.olvData)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudTimerInterval)).BeginInit();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // olvData
@@ -171,12 +178,30 @@
             this.groupBox1.Controls.Add(this.nudTimerInterval);
             this.groupBox1.Controls.Add(this.btnStopAutoRefresh);
             this.groupBox1.Controls.Add(this.btnStartAutoRefresh);
-            this.groupBox1.Location = new System.Drawing.Point(514, 272);
+            this.groupBox1.Location = new System.Drawing.Point(514, 233);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(274, 117);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Auto refresh";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(250, 47);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(24, 13);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "sec";
+            // 
+            // lblNextRefreshIn
+            // 
+            this.lblNextRefreshIn.AutoSize = true;
+            this.lblNextRefreshIn.Location = new System.Drawing.Point(65, 45);
+            this.lblNextRefreshIn.Name = "lblNextRefreshIn";
+            this.lblNextRefreshIn.Size = new System.Drawing.Size(110, 13);
+            this.lblNextRefreshIn.TabIndex = 11;
+            this.lblNextRefreshIn.Text = "Next refresh in: 10/90";
             // 
             // lblAutoRefreshStatus
             // 
@@ -213,39 +238,84 @@
             // cbMinimizeToTray
             // 
             this.cbMinimizeToTray.AutoSize = true;
-            this.cbMinimizeToTray.Location = new System.Drawing.Point(523, 412);
+            this.cbMinimizeToTray.Location = new System.Drawing.Point(684, 421);
             this.cbMinimizeToTray.Name = "cbMinimizeToTray";
             this.cbMinimizeToTray.Size = new System.Drawing.Size(98, 17);
             this.cbMinimizeToTray.TabIndex = 9;
             this.cbMinimizeToTray.Text = "Minimize to tray";
             this.cbMinimizeToTray.UseVisualStyleBackColor = true;
             // 
-            // lblNextRefreshIn
-            // 
-            this.lblNextRefreshIn.AutoSize = true;
-            this.lblNextRefreshIn.Location = new System.Drawing.Point(65, 45);
-            this.lblNextRefreshIn.Name = "lblNextRefreshIn";
-            this.lblNextRefreshIn.Size = new System.Drawing.Size(110, 13);
-            this.lblNextRefreshIn.TabIndex = 11;
-            this.lblNextRefreshIn.Text = "Next refresh in: 10/90";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(250, 47);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(24, 13);
-            this.label2.TabIndex = 12;
-            this.label2.Text = "sec";
-            // 
             // groupBox2
             // 
-            this.groupBox2.Location = new System.Drawing.Point(514, 110);
+            this.groupBox2.Controls.Add(this.label5);
+            this.groupBox2.Controls.Add(this.cbFilterHCSC);
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.cbFilterLadderNonLadder);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.cbFilterRegion);
+            this.groupBox2.Location = new System.Drawing.Point(514, 95);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(274, 156);
+            this.groupBox2.Size = new System.Drawing.Size(274, 132);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Filters";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(20, 79);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(96, 13);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "Hardcore/Softcore";
+            // 
+            // cbFilterHCSC
+            // 
+            this.cbFilterHCSC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFilterHCSC.FormattingEnabled = true;
+            this.cbFilterHCSC.Location = new System.Drawing.Point(6, 95);
+            this.cbFilterHCSC.Name = "cbFilterHCSC";
+            this.cbFilterHCSC.Size = new System.Drawing.Size(121, 21);
+            this.cbFilterHCSC.TabIndex = 4;
+            this.cbFilterHCSC.SelectedIndexChanged += new System.EventHandler(this.cbFilter_SelectedIndexChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(158, 26);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(101, 13);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "Ladder/Non-Ladder";
+            // 
+            // cbFilterLadderNonLadder
+            // 
+            this.cbFilterLadderNonLadder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFilterLadderNonLadder.FormattingEnabled = true;
+            this.cbFilterLadderNonLadder.Location = new System.Drawing.Point(147, 42);
+            this.cbFilterLadderNonLadder.Name = "cbFilterLadderNonLadder";
+            this.cbFilterLadderNonLadder.Size = new System.Drawing.Size(121, 21);
+            this.cbFilterLadderNonLadder.TabIndex = 2;
+            this.cbFilterLadderNonLadder.SelectedIndexChanged += new System.EventHandler(this.cbFilter_SelectedIndexChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(40, 26);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(41, 13);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Region";
+            // 
+            // cbFilterRegion
+            // 
+            this.cbFilterRegion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFilterRegion.FormattingEnabled = true;
+            this.cbFilterRegion.Location = new System.Drawing.Point(6, 42);
+            this.cbFilterRegion.Name = "cbFilterRegion";
+            this.cbFilterRegion.Size = new System.Drawing.Size(121, 21);
+            this.cbFilterRegion.TabIndex = 0;
+            this.cbFilterRegion.SelectedIndexChanged += new System.EventHandler(this.cbFilter_SelectedIndexChanged);
             // 
             // Form1
             // 
@@ -269,6 +339,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudTimerInterval)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -296,6 +368,12 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblNextRefreshIn;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox cbFilterHCSC;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cbFilterLadderNonLadder;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox cbFilterRegion;
     }
 }
 

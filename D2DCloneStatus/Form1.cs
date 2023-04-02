@@ -1,17 +1,11 @@
-﻿using BrightIdeasSoftware;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
 using System.Net.Http;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Serialization;
 
 namespace D2DCloneStatus
 {
@@ -27,6 +21,15 @@ namespace D2DCloneStatus
         public Form1()
         {
             InitializeComponent();
+
+            cbFilterRegion.Items.AddRange(Enum.GetNames(typeof(RegionMapping)));
+            cbFilterLadderNonLadder.Items.AddRange(Enum.GetNames(typeof(LadderMapping)));
+            cbFilterHCSC.Items.AddRange(Enum.GetNames(typeof(HCMapping)));
+
+            cbFilterLadderNonLadder.SelectedIndex = 0;
+            cbFilterHCSC.SelectedIndex = 0;
+            cbFilterRegion.SelectedIndex = 0;
+
             refreshStatus();
             
             nudTimerInterval.Value = timerInterval;
@@ -86,7 +89,30 @@ namespace D2DCloneStatus
         {
             olvData.Items.Clear();
 
-            olvData.SetObjects(convertResultsForOLV(results));
+            olvData.SetObjects(convertResultsForOLV(filterResults(results)));
+        }
+
+        private List<Response> filterResults(List<Response> results)
+        {
+            return results.FindAll(res => {
+                //region filtering
+                if (cbFilterRegion.SelectedIndex != 0 && res.region != cbFilterRegion.SelectedIndex)
+                {
+                    return false;
+                }
+                //ladder/non-ladder filtering
+                if (cbFilterLadderNonLadder.SelectedIndex != 0 && res.ladder != cbFilterRegion.SelectedIndex)
+                {
+                    return false;
+                }
+                //hc/sc filtering
+                if (cbFilterHCSC.SelectedIndex != 0 && res.hc != cbFilterRegion.SelectedIndex)
+                {
+                    return false;
+                }
+
+                return true;
+            });
         }
 
         private List<ResponseForOLV> convertResultsForOLV(List<Response> results)
@@ -119,6 +145,12 @@ namespace D2DCloneStatus
             }
             
             return difference.Seconds.ToString() + " second(s) ago";
+        }
+
+
+        private void cbFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            btnRefresh.PerformClick();
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
