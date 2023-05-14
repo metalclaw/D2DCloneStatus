@@ -101,12 +101,12 @@ namespace D2DCloneStatus
                     return false;
                 }
                 //ladder/non-ladder filtering
-                if (cbFilterLadderNonLadder.SelectedIndex != 0 && res.ladder != cbFilterRegion.SelectedIndex)
+                if (cbFilterLadderNonLadder.SelectedIndex != 0 && res.ladder != cbFilterLadderNonLadder.SelectedIndex)
                 {
                     return false;
                 }
                 //hc/sc filtering
-                if (cbFilterHCSC.SelectedIndex != 0 && res.hc != cbFilterRegion.SelectedIndex)
+                if (cbFilterHCSC.SelectedIndex != 0 && res.hc != cbFilterHCSC.SelectedIndex)
                 {
                     return false;
                 }
