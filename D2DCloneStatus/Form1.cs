@@ -14,9 +14,11 @@ namespace D2DCloneStatus
         static string endpoint = "https://diablo2.io/dclone_api.php";
         static HttpClient client = new HttpClient();
         private List<Response> responseList = new List<Response>();
+        private List<Response> previousResults;
         Timer refreshTimer = new Timer();
         private int timerInterval = 90; //in seconds
         private int currentTimerInterval = 0;
+
 
         public Form1()
         {
@@ -58,6 +60,7 @@ namespace D2DCloneStatus
                 responseList = await getData();
                 updateList(responseList);
                 lblLastUpdate.Text = "Last update: " + DateTime.Now.ToString("HH:mm:ss");
+                checkForNotification(responseList);
             } catch(HttpRequestException ex)
             {
                 MessageBox.Show("A HTTP error occured when trying to get data from server. Either the server is down or your internet connection is unstable.", "Error");
@@ -65,6 +68,21 @@ namespace D2DCloneStatus
             {
                 MessageBox.Show(ex.Message, "Error");
             }
+        }
+
+        public void checkForNotification(List<Response> results)
+        {
+            //todo compare results with previousResults to check if we need to notify
+            List<Response> filteredOld = filterResults(previousResults);
+            List<Response> filteredNew = filterResults(results);
+
+            displayNotification("testing testing");
+        }
+
+        public void displayNotification(string notificationText = "")
+        {
+            notification.Visible = true;
+            notification.ShowBalloonTip(3000, "Diablo Clone Approaches!", notificationText, ToolTipIcon.Info);
         }
 
         private async Task<List<Response>> getData()
@@ -90,6 +108,13 @@ namespace D2DCloneStatus
             olvData.Items.Clear();
 
             olvData.SetObjects(convertResultsForOLV(filterResults(results)));
+
+            saveAsPreviousResults(results);
+        }
+
+        private void saveAsPreviousResults(List<Response> results)
+        {
+            previousResults = results;
         }
 
         private List<Response> filterResults(List<Response> results)
@@ -217,6 +242,11 @@ namespace D2DCloneStatus
                 Show();
                 WindowState = FormWindowState.Normal;
             }
+        }
+
+        private void notification_BalloonTipClosed(object sender, EventArgs e)
+        {
+            notification.Visible = false;
         }
     }
 }

@@ -4,7 +4,6 @@ C:\Users\zerat\source\repos\D2DCloneStatus\D2DCloneStatus\bin\Debug\D2DCloneStat
 C:\Users\zerat\source\repos\D2DCloneStatus\D2DCloneStatus\bin\Debug\Newtonsoft.Json.dll
 C:\Users\zerat\source\repos\D2DCloneStatus\D2DCloneStatus\bin\Debug\Newtonsoft.Json.xml
 C:\Users\zerat\source\repos\D2DCloneStatus\D2DCloneStatus\obj\Debug\D2DCloneStatus.csproj.AssemblyReference.cache
-C:\Users\zerat\source\repos\D2DCloneStatus\D2DCloneStatus\obj\Debug\D2DCloneStatus.csproj.SuggestedBindingRedirects.cache
 C:\Users\zerat\source\repos\D2DCloneStatus\D2DCloneStatus\obj\Debug\D2DCloneStatus.Properties.Resources.resources
 C:\Users\zerat\source\repos\D2DCloneStatus\D2DCloneStatus\obj\Debug\D2DCloneStatus.csproj.GenerateResource.cache
 C:\Users\zerat\source\repos\D2DCloneStatus\D2DCloneStatus\obj\Debug\D2DCloneStatus.csproj.CoreCompileInputs.cache
@@ -14,3 +13,4 @@ C:\Users\zerat\source\repos\D2DCloneStatus\D2DCloneStatus\obj\Debug\D2DCloneStat
 C:\Users\zerat\source\repos\D2DCloneStatus\D2DCloneStatus\obj\Debug\D2DCloneStatus.Form1.resources
 C:\Users\zerat\source\repos\D2DCloneStatus\D2DCloneStatus\bin\Debug\ObjectListView.dll
 C:\Users\zerat\source\repos\D2DCloneStatus\D2DCloneStatus\bin\Debug\ObjectListView.xml
+C:\Users\zerat\source\repos\D2DCloneStatus\D2DCloneStatus\bin\Debug\diablo-skull.ico

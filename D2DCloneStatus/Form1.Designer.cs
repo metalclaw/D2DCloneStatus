@@ -56,10 +56,15 @@
             this.cbFilterLadderNonLadder = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.cbFilterRegion = new System.Windows.Forms.ComboBox();
+            this.notification = new System.Windows.Forms.NotifyIcon(this.components);
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.cbNotification = new System.Windows.Forms.CheckBox();
+            this.cbProgressNotification = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.olvData)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudTimerInterval)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // olvData
@@ -119,7 +124,7 @@
             // lblLastUpdate
             // 
             this.lblLastUpdate.AutoSize = true;
-            this.lblLastUpdate.Location = new System.Drawing.Point(601, 12);
+            this.lblLastUpdate.Location = new System.Drawing.Point(593, 21);
             this.lblLastUpdate.Name = "lblLastUpdate";
             this.lblLastUpdate.Size = new System.Drawing.Size(66, 13);
             this.lblLastUpdate.TabIndex = 2;
@@ -127,7 +132,7 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(604, 52);
+            this.btnRefresh.Location = new System.Drawing.Point(614, 48);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 4;
@@ -178,9 +183,9 @@
             this.groupBox1.Controls.Add(this.nudTimerInterval);
             this.groupBox1.Controls.Add(this.btnStopAutoRefresh);
             this.groupBox1.Controls.Add(this.btnStartAutoRefresh);
-            this.groupBox1.Location = new System.Drawing.Point(514, 233);
+            this.groupBox1.Location = new System.Drawing.Point(514, 298);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(274, 117);
+            this.groupBox1.Size = new System.Drawing.Size(280, 117);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Auto refresh";
@@ -231,7 +236,7 @@
             // trayIcon
             // 
             this.trayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("trayIcon.Icon")));
-            this.trayIcon.Text = "D2 dclone status trackeris minimized to tray yo!";
+            this.trayIcon.Text = "D2DClone Tracker";
             this.trayIcon.Visible = true;
             this.trayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseDoubleClick);
             // 
@@ -253,9 +258,9 @@
             this.groupBox2.Controls.Add(this.cbFilterLadderNonLadder);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.cbFilterRegion);
-            this.groupBox2.Location = new System.Drawing.Point(514, 95);
+            this.groupBox2.Location = new System.Drawing.Point(514, 160);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(274, 132);
+            this.groupBox2.Size = new System.Drawing.Size(280, 132);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Filters";
@@ -317,11 +322,55 @@
             this.cbFilterRegion.TabIndex = 0;
             this.cbFilterRegion.SelectedIndexChanged += new System.EventHandler(this.cbFilter_SelectedIndexChanged);
             // 
+            // notification
+            // 
+            this.notification.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.notification.Icon = ((System.Drawing.Icon)(resources.GetObject("notification.Icon")));
+            this.notification.Tag = "";
+            this.notification.BalloonTipClosed += new System.EventHandler(this.notification_BalloonTipClosed);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.cbProgressNotification);
+            this.groupBox3.Controls.Add(this.cbNotification);
+            this.groupBox3.Location = new System.Drawing.Point(514, 77);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(274, 77);
+            this.groupBox3.TabIndex = 11;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Notification";
+            // 
+            // cbNotification
+            // 
+            this.cbNotification.AutoSize = true;
+            this.cbNotification.Location = new System.Drawing.Point(18, 32);
+            this.cbNotification.Name = "cbNotification";
+            this.cbNotification.Size = new System.Drawing.Size(166, 17);
+            this.cbNotification.TabIndex = 0;
+            this.cbNotification.Text = "Notify when progress reaches";
+            this.cbNotification.UseVisualStyleBackColor = true;
+            // 
+            // cbProgressNotification
+            // 
+            this.cbProgressNotification.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbProgressNotification.FormattingEnabled = true;
+            this.cbProgressNotification.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"});
+            this.cbProgressNotification.Location = new System.Drawing.Point(54, 50);
+            this.cbProgressNotification.Name = "cbProgressNotification";
+            this.cbProgressNotification.Size = new System.Drawing.Size(121, 21);
+            this.cbProgressNotification.TabIndex = 1;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.cbMinimizeToTray);
             this.Controls.Add(this.groupBox1);
@@ -341,6 +390,8 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -374,6 +425,10 @@
         private System.Windows.Forms.ComboBox cbFilterLadderNonLadder;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cbFilterRegion;
+        private System.Windows.Forms.NotifyIcon notification;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.ComboBox cbProgressNotification;
+        private System.Windows.Forms.CheckBox cbNotification;
     }
 }
 
